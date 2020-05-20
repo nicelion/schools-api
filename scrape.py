@@ -1,6 +1,13 @@
+# scrape.py
+# schools-api
+
+# Created by Ian Thompson
+# MIT Licence
+
 from bs4 import BeautifulSoup
 import requests
 import array
+import states
 
 from ColorIt import *
 
@@ -14,7 +21,7 @@ def sanitize_school_districts(districts):
 
     for d in districts:
         print(d)
-        print('-> herese some info')
+        # print('-> herese some info')
 
     return districts
 
@@ -53,21 +60,25 @@ def get_state():
 
         
 
+USA = states.UnitedStates
+abbrev_us_state = dict(map(reversed, USA.us_state_abbrev.items()))
 
-print (color ('Retreiving School Districts', colors.RED))
+print(abbrev_us_state['AK'])
 
-state = get_state()
+# print (color ('Retreiving School Districts', colors.RED))
 
-should_query = True
-i = 1
-root = 'https://nces.ed.gov/ccd/districtsearch/district_list.asp?Search=1&details=1&State=%s&DistrictType=1&DistrictType=2&DistrictType=3&DistrictType=4&DistrictType=5&DistrictType=6&DistrictType=7&DistrictType=8&NumOfStudentsRange=more&NumOfSchoolsRange=more&ID2=4500870&DistrictPageNum=%s'
+# state = get_state()
 
-while should_query:
+# should_query = True
+# i = 1
+# root = 'https://nces.ed.gov/ccd/districtsearch/district_list.asp?Search=1&details=1&State=%s&DistrictType=1&DistrictType=2&DistrictType=3&DistrictType=4&DistrictType=5&DistrictType=6&DistrictType=7&DistrictType=8&NumOfStudentsRange=more&NumOfSchoolsRange=more&ID2=4500870&DistrictPageNum=%s'
 
-    query = root % (state, i)
-    result = get_school_districts(state, i, query)
+# while should_query:
 
-    should_query = result[1] == 15
+#     query = root % (state, i)
+#     result = get_school_districts(state, i, query)
 
-    i += 1
+#     should_query = result[1] == 15
+
+#     i += 1
 
