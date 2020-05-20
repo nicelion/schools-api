@@ -12,6 +12,9 @@ import states
 from ColorIt import *
 
 initColorIt()
+USA = states.UnitedStates
+state_codes = dict(map(reversed, USA.codes.items()))
+state_abbreviations = dict(map(reversed, USA.abbreviations.items()))
 # url = 'https://nces.ed.gov/ccd/districtsearch/district_list.asp?Search=1&details=1&State=%s&DistrictType=1&DistrictType=2&DistrictType=3&DistrictType=4&DistrictType=5&DistrictType=6&DistrictType=7&DistrictType=8&NumOfStudentsRange=more&NumOfSchoolsRange=more&ID2=4500870&DistrictPageNum=%s'
 
 def sanitize_school_districts(districts):
@@ -26,8 +29,6 @@ def sanitize_school_districts(districts):
     return districts
 
 def get_school_districts(state, page, url):
-    print (color ('STATE page %s' % (page), colors.BLUE))
-
     districts = []
 
     
@@ -44,41 +45,37 @@ def get_school_districts(state, page, url):
     sanitized_districts = sanitize_school_districts(districts)
     return (sanitized_districts, len(sanitized_districts))
 
-def get_state():
-    state = input(color ('Enter (1-50) your state: ', colors.GREEN))
+# def begin_query(state):
+    
 
-    try:
-        if int(state) <= 50:
-            return (state)
-        else:
-            print ((color ('[ERROR]:', colors.RED)), "Please enter a number between 1-50 corresponding to state's order alphabetically.")
-            get_state()
- 
-    except TypeError:
-        print ((color ('[ERROR]:', colors.RED)), "Please enter a number between 1-50 corresponding to state's order alphabetically.")
+def get_state():
+    state = input(color ('Enter state abbreviation your state (help for more info): ', colors.GREEN))
+
+    if state == 'help':
+        print(state_abbreviations)
         get_state()
+    if state in state_codes:
+        return state_codes[state]
 
         
 
-USA = states.UnitedStates
-abbrev_us_state = dict(map(reversed, USA.us_state_abbrev.items()))
 
-print(abbrev_us_state['AK'])
 
-# print (color ('Retreiving School Districts', colors.RED))
+print (color ('Retreiving School Districts', colors.RED))
 
-# state = get_state()
+state = get_state()
 
-# should_query = True
-# i = 1
-# root = 'https://nces.ed.gov/ccd/districtsearch/district_list.asp?Search=1&details=1&State=%s&DistrictType=1&DistrictType=2&DistrictType=3&DistrictType=4&DistrictType=5&DistrictType=6&DistrictType=7&DistrictType=8&NumOfStudentsRange=more&NumOfSchoolsRange=more&ID2=4500870&DistrictPageNum=%s'
+should_query = True
+i = 1
+root = 'https://nces.ed.gov/ccd/districtsearch/district_list.asp?Search=1&details=1&State=%s&DistrictType=1&DistrictType=2&DistrictType=3&DistrictType=4&DistrictType=5&DistrictType=6&DistrictType=7&DistrictType=8&NumOfStudentsRange=more&NumOfSchoolsRange=more&ID2=4500870&DistrictPageNum=%s'
 
-# while should_query:
+print(state)
+while should_query:
 
-#     query = root % (state, i)
-#     result = get_school_districts(state, i, query)
+    query = root % (state, i)
+    result = get_school_districts(state, i, query)
 
-#     should_query = result[1] == 15
+    should_query = result[1] == 15
 
-#     i += 1
+    i += 1
 
